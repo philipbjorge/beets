@@ -600,7 +600,7 @@ class ImportTask(object):
         for item in self.items:
             item.update(changes)
 
-    def manipulate_files(self, move=False, copy=False, write=False,
+    def manipulate_files(self, move=False, link=False, copy=False, write=False,
                          session=None):
         items = self.imported_items()
         # Save the original paths of all items for deletion and pruning
@@ -609,7 +609,7 @@ class ImportTask(object):
         for item in items:
             if session.config['move']:
                 # Just move the file.
-                item.move(False)
+                item.move(False, link=link)
             elif session.config['copy']:
                 # If it's a reimport, move in-library files and copy
                 # out-of-library files. Otherwise, copy and keep track
@@ -1278,6 +1278,7 @@ def manipulate_files(session, task):
 
         task.manipulate_files(
             move=session.config['move'],
+            link=session.config['link'],
             copy=session.config['copy'],
             write=session.config['write'],
             session=session,

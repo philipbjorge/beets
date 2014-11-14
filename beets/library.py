@@ -580,7 +580,7 @@ class Item(LibModel):
 
         self._db._memotable = {}
 
-    def move(self, copy=False, basedir=None, with_album=True):
+    def move(self, copy=False, basedir=None, with_album=True, link=False):
         """Move the item to its designated location within the library
         directory (provided by destination()). Subdirectories are
         created as needed. If the operation succeeds, the item's path
@@ -608,7 +608,7 @@ class Item(LibModel):
 
         # Perform the move and store the change.
         old_path = self.path
-        self.move_file(dest, copy)
+        self.move_file(dest, copy, link)
         self.store()
 
         # If this item is in an album, move its art.
